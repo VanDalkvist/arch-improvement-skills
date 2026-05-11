@@ -27,9 +27,18 @@ Architecture-rule dependency:
 
 - Install `arch-rules-skills`: https://github.com/VanDalkvist/arch-rules-skills
 - Required skill surface: `arch-rules-context`, `arch-rules-slice-planning`, and `arch-rules-implementation-review`.
-- The target repository should provide or point to an architecture-rules baseline.
+- The target repository should provide or point to an architecture-rules baseline. If it does not, use the default public baseline documented by `arch-rules-skills`: https://github.com/ai-meatbags/arch-rules
 
 If Superpowers or the architecture-rule skills are missing, the agent must stop and install or map equivalents before running `arch-improvement-loop`. Do not silently run the loop as a plain checklist.
+
+Before starting the improvement loop, the agent must complete dependency bootstrap:
+
+1. Confirm Superpowers skills are available.
+2. Confirm `arch-rules-skills` is installed.
+3. Resolve a readable architecture-rules baseline using the `arch-rules-skills` README.
+4. Run `arch-rules-context` and produce an Architecture Context Map.
+
+If any step fails, stop before review, planning, or code edits.
 
 ## Install In Codex
 
@@ -40,8 +49,10 @@ Recommended agent instruction:
 ```text
 First ensure Superpowers is installed and that these skills are available: superpowers:using-superpowers, superpowers:writing-plans, superpowers:executing-plans, superpowers:test-driven-development, superpowers:verification-before-completion.
 Then install arch-rules-skills from https://github.com/VanDalkvist/arch-rules-skills.
+Before running arch-improvement-loop, resolve a readable architecture-rules baseline. Prefer project-pinned rules; otherwise use https://github.com/ai-meatbags/arch-rules.
 Install all skills from https://github.com/VanDalkvist/arch-improvement-skills/tree/main/skills into Codex.
 Use the Codex skill-installer flow if available. Install every arch-improvement-* skill, not only arch-improvement-loop.
+Fail fast if Superpowers, arch-rules-skills, or a readable baseline is missing.
 After installation, restart Codex so the skills are discovered.
 ```
 
