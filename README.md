@@ -15,18 +15,29 @@ The loop is designed for codebases where review should lead to reasonable fixes,
 
 ## Requirements
 
-This pack expects the agent environment to provide equivalent skills for:
+This pack is not standalone. It depends on Superpowers and architecture-rule skills being available in the target agent environment.
 
-- Superpowers planning and execution, especially `writing-plans`, `executing-plans`, `test-driven-development`, and `verification-before-completion`.
-- Architecture-rule context, slice planning, and implementation review.
+Superpowers dependency:
 
-If those companion skills are missing, the agent should stop and install or map equivalents before running `arch-improvement-loop`. Do not silently run the loop as a plain checklist.
+- Source project: https://github.com/obra/superpowers
+- Claude plugin page: https://claude.com/plugins/superpowers
+- Required skill surface: `superpowers:using-superpowers`, `superpowers:writing-plans`, `superpowers:executing-plans`, `superpowers:test-driven-development`, and `superpowers:verification-before-completion`.
+
+Architecture-rule dependency:
+
+- The target environment must provide skills equivalent to `arch-rules-context`, `arch-rules-slice-planning`, and `arch-rules-implementation-review`.
+- The target repository should provide or point to an architecture-rules baseline.
+
+If Superpowers or the architecture-rule skills are missing, the agent must stop and install or map equivalents before running `arch-improvement-loop`. Do not silently run the loop as a plain checklist.
 
 ## Install In Codex
+
+Install Superpowers first, or confirm that the Codex Superpowers plugin/skills are already available. The upstream Superpowers Codex guide is here: https://github.com/obra/superpowers/blob/main/docs/README.codex.md
 
 Recommended agent instruction:
 
 ```text
+First ensure Superpowers is installed and that these skills are available: superpowers:using-superpowers, superpowers:writing-plans, superpowers:executing-plans, superpowers:test-driven-development, superpowers:verification-before-completion.
 Install all skills from https://github.com/VanDalkvist/arch-improvement-skills/tree/main/skills into Codex.
 Use the Codex skill-installer flow if available. Install every arch-improvement-* skill, not only arch-improvement-loop.
 After installation, restart Codex so the skills are discovered.
@@ -50,6 +61,8 @@ Codex skill directories should end up like:
 ```
 
 ## Install In Claude Code
+
+Install the Superpowers plugin first, or confirm equivalent Superpowers skills are already installed: https://claude.com/plugins/superpowers
 
 Claude Code supports personal and project skills as filesystem directories with a `SKILL.md` entrypoint. See the official Claude Code skills docs: https://code.claude.com/docs/en/skills
 
