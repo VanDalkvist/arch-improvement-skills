@@ -25,7 +25,8 @@ Superpowers dependency:
 
 Architecture-rule dependency:
 
-- The target environment must provide skills equivalent to `arch-rules-context`, `arch-rules-slice-planning`, and `arch-rules-implementation-review`.
+- Install `arch-rules-skills`: https://github.com/VanDalkvist/arch-rules-skills
+- Required skill surface: `arch-rules-context`, `arch-rules-slice-planning`, and `arch-rules-implementation-review`.
 - The target repository should provide or point to an architecture-rules baseline.
 
 If Superpowers or the architecture-rule skills are missing, the agent must stop and install or map equivalents before running `arch-improvement-loop`. Do not silently run the loop as a plain checklist.
@@ -38,6 +39,7 @@ Recommended agent instruction:
 
 ```text
 First ensure Superpowers is installed and that these skills are available: superpowers:using-superpowers, superpowers:writing-plans, superpowers:executing-plans, superpowers:test-driven-development, superpowers:verification-before-completion.
+Then install arch-rules-skills from https://github.com/VanDalkvist/arch-rules-skills.
 Install all skills from https://github.com/VanDalkvist/arch-improvement-skills/tree/main/skills into Codex.
 Use the Codex skill-installer flow if available. Install every arch-improvement-* skill, not only arch-improvement-loop.
 After installation, restart Codex so the skills are discovered.

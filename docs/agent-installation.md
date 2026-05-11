@@ -33,11 +33,13 @@ Required Superpowers skill surface:
 - `superpowers:test-driven-development`
 - `superpowers:verification-before-completion`
 
-This pack also expects architecture-rule skills equivalent to:
+This pack also expects these architecture-rule skills:
 
 - `arch-rules-context`
 - `arch-rules-slice-planning`
 - `arch-rules-implementation-review`
+
+Install them from https://github.com/VanDalkvist/arch-rules-skills before installing this pack.
 
 If any dependency is missing, stop and install or map an equivalent before installing or running the loop. Do not degrade into a plain review checklist.
 
@@ -46,9 +48,10 @@ If any dependency is missing, stop and install or map an equivalent before insta
 Preferred:
 
 1. Confirm Superpowers is available in Codex, or install it from https://github.com/obra/superpowers/blob/main/docs/README.codex.md.
-2. Use Codex's `skill-installer` flow for this GitHub repository if available.
-3. Install all six `skills/arch-improvement-*` paths.
-4. Tell the user to restart Codex after installation.
+2. Install `arch-rules-skills` from https://github.com/VanDalkvist/arch-rules-skills.
+3. Use Codex's `skill-installer` flow for this GitHub repository if available.
+4. Install all six `skills/arch-improvement-*` paths.
+5. Tell the user to restart Codex after installation.
 
 Manual fallback:
 
@@ -68,6 +71,8 @@ find "${CODEX_HOME:-$HOME/.codex}/skills" -maxdepth 2 -path "*/arch-improvement-
 ## Claude Code
 
 Install the Superpowers Claude plugin first, or confirm equivalent Superpowers skills are already installed: https://claude.com/plugins/superpowers
+
+Install `arch-rules-skills` before this pack: https://github.com/VanDalkvist/arch-rules-skills
 
 Personal install:
 
