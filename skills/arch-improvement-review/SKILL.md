@@ -1,6 +1,6 @@
 ---
 name: arch-improvement-review
-description: Use when reviewing an existing codebase for a arch-improvement cycle where findings must be severity-ranked, architecture-aware, product-aware, and separated from style-only observations.
+description: Use when reviewing an existing codebase for an arch-improvement cycle where findings must be severity-ranked, architecture-aware, product-aware, and separated from style-only observations.
 ---
 
 # Arch Improvement Review

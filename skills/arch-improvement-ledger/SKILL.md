@@ -1,6 +1,6 @@
 ---
 name: arch-improvement-ledger
-description: Use when a arch-improvement cycle needs durable markdown records of findings, fix decisions, patches, skipped style issues, verification, residual risk, and cycle outcomes.
+description: Use when an arch-improvement cycle needs durable markdown records of findings, fix decisions, patches, skipped style issues, verification, residual risk, and cycle outcomes.
 ---
 
 # Arch Improvement Ledger

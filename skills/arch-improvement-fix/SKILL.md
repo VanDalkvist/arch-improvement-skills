@@ -1,6 +1,6 @@
 ---
 name: arch-improvement-fix
-description: Use when a arch-improvement review has selected bounded findings for repair and the agent must patch only reasonable defects while preserving architecture boundaries and verification integrity.
+description: Use when an arch-improvement review has selected bounded findings for repair and the agent must patch only reasonable defects while preserving architecture boundaries and verification integrity.
 ---
 
 # Arch Improvement Fix
