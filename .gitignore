@@ -1,0 +1,8 @@
+.DS_Store
+.codex/
+.claude/
+node_modules/
+dist/
+build/
+coverage/
+*.log
