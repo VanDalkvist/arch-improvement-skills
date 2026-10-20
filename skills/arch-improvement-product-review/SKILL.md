@@ -92,13 +92,13 @@ Findings
 ## Verdict Rules
 
 - **VERDICT: FAIL** if:
-  - Any unresolved P0 or P1 findings exist.
+  - Any unresolved P0, P1, or P2 findings exist (P0, P1, and P2 findings all fail the review gate).
   - `User Journey Covered` is `NO` or `PARTIAL` with unverified critical steps.
   - Silent swallows or false-positive success states are detected in the active slice.
 - **VERDICT: PASS** only when:
   - All target user journeys are thoroughly covered (`User Journey Covered: YES`).
-  - No open P0 or P1 findings exist.
-  - Any P2 or P3 findings are triaged with explicit `Fix decision` and residual user risk is clearly documented and acceptable.
+  - No open P0, P1, or P2 findings exist.
+  - Any P3 findings (minor polish or cosmetic ergonomics) are triaged with explicit `Fix decision` and residual user risk is clearly documented and acceptable.
 
 ## Guardrails
 

@@ -82,7 +82,7 @@ In state S9 (Verify Gate), the orchestrator launches two parallel independent su
 
 The S9 gate is passed ONLY when BOTH reviewers issue `VERDICT: PASS`. If either reviewer reports `FAIL`:
 - Findings are triaged (`fix-now`, `log-only`, `blocked`).
-- Unresolved P0/P1 issues return to S8 (or trigger a plan revision in S6).
+- Unresolved P0/P1/P2 issues return to S8 (or trigger a plan revision in S6). Any open P0, P1, or P2 finding triggers `VERDICT: FAIL` in the review gate.
 - Advancing to S10 (Ledger Update) is blocked until both circuits pass or the failure is explicitly marked `blocked` with user approval.
 
 ## Triage Rules

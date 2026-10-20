@@ -46,6 +46,19 @@ Log only when the issue is style, broad refactor, speculative design, unclear va
 
 Block when the fix needs product approval, architecture change, secret handling, data migration, external side effects, or destructive operations.
 
+## Verdict Rules
+
+When evaluating an implementation slice or reviewing code:
+
+- **VERDICT: FAIL** if:
+  - Any unresolved P0, P1, or P2 findings exist (P0, P1, and P2 are all blocking defects that fail the gate).
+  - Architecture boundaries or public contracts are violated.
+  - Verification evidence is missing or inconclusive.
+- **VERDICT: PASS** only when:
+  - No open P0, P1, or P2 findings exist.
+  - All selected fixes have verifiable evidence.
+  - Only P3 findings (style, optional cleanup, minor maintainability observations) remain triaged as `log-only`.
+
 ## Guardrails
 
 - Do not report style as a bug unless it creates a real maintenance or user risk.
