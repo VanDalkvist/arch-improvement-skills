@@ -28,6 +28,7 @@
 - `arch-improvement-orientation` - поиск настоящего repo root, source of truth, active paths и test surface.
 - `arch-improvement-review` - severity-ranked review с разделением `fix-now`, `log-only`, `blocked`.
 - `arch-improvement-fix` - bounded repair через TDD и architecture gates.
+- `arch-improvement-product-review` - независимое продуктовое ревью пользовательского сценария, ожиданий vs реальности и полноты UX/CLI состояний.
 - `arch-improvement-ledger` - markdown-журнал findings, решений, правок, verification и residual risk.
 
 Важный принцип: `arch-improvement-loop` не должен становиться god-skill. Он только управляет переходами state machine. Работу делают узкие skills.
@@ -56,15 +57,86 @@
 | S0 Bootstrap | repo root, branch, dirty worktree, local instructions |
 | S1 Memory Load | прочитать project-local memory |
 | S2 Orientation | найти source of truth и собрать Architecture Context Map |
-| S3 Review | найти реальные defects и risks |
-| S4 Triage Gate | решить `fix-now`, `log-only`, `blocked` |
-| S5 Plan Write | сохранить Superpowers plan |
-| S6 Plan Review | критически проверить план до исполнения |
-| S7 Execute Fix Slice | чинить только planned slices |
-| S8 Verify Gate | свежая verification evidence |
-| S9 Ledger Update | записать полный markdown trace |
-| S10 Learn Gate | обновить memory или явно сказать `no durable lesson` |
-| S11 Stop | короткий финальный отчёт |
+| S3 Brainstorm | согласовать и подтвердить дизайн с пользователем (hard-gate) |
+| S4 Review | найти реальные defects и risks |
+| S5 Triage Gate | решить `fix-now`, `log-only`, `blocked` |
+| S6 Plan Write | сохранить Superpowers plan |
+| S7 Plan Review | критически проверить план до исполнения |
+| S8 Execute Fix Slice | чинить только planned slices |
+| S9 Verify Gate | свежая verification evidence (двухконтурный гейт: арх + продукт) |
+| S10 Ledger Update | записать полный markdown trace |
+| S11 Learn Gate | обновить memory или явно сказать `no durable lesson` |
+| S12 Stop | короткий финальный отчёт |
+
+### Двухконтурный Гейт Верификации (S9 Verify Gate)
+
+В состоянии **S9 Verify Gate** оркестратор запускает двух параллельных независимых сабагентов:
+
+1. **Архитектурный ревьюер** (`arch-rules-implementation-review`):
+   - проверка архитектурных границ и композиционных корней;
+   - соответствие baseline AP-правилам;
+   - соблюдение бюджетов строк (AP-019);
+   - детерминизм и изоляция тестов.
+2. **Продуктовый ревьюер** (`arch-improvement-product-review`):
+   - сквозная трассировка пользовательского сценария (User Journey): ввод → реакция → результат → ошибки;
+   - сопоставление ожиданий пользователя/оператора с фактическим поведением;
+   - проверка слепых зон: отсутствие «тихих проглатываний» ошибок, полнота UX/CLI-обратной связи;
+   - закрытие всех состояний: пустые данные, отмена (Ctrl-C), фоновый режим, ошибки.
+
+```text
+                  ┌──────────────────────┐
+                  │ S8 Execute Fix Slice │
+                  └──────────┬───────────┘
+                             │
+                             ▼
+                  ┌──────────────────────┐
+                  │    S9 Verify Gate    │
+                  └──────────┬───────────┘
+                             │ (параллельный запуск)
+               ┌─────────────┴─────────────┐
+               ▼                           ▼
+    ┌──────────────────────┐    ┌──────────────────────┐
+    │     Архитектура      │    │       Продукт        │
+    │  arch-rules-impl-    │    │   arch-improvement-  │
+    │       review         │    │   product-review     │
+    │                      │    │                      │
+    │ • границы слоёв      │    │ • сквозной сценарий  │
+    │ • AP-правила         │    │ • ожидания vs факт   │
+    │ • бюджет строк       │    │ • blind spots UX/CLI │
+    │ • детерминизм тестов │    │ • unhandled states   │
+    └──────────┬───────────┘    └──────────┬───────────┘
+               │                           │
+               └─────────────┬─────────────┘
+                             ▼
+                    Оба VERDICT: PASS?
+                            / \
+                       ДА  /   \  НЕТ (FAIL)
+                          /     \
+                         ▼       ▼
+              ┌─────────────┐   ┌──────────────────────┐
+              │ S10 Ledger  │   │ S8 Fix / S6 Replan   │
+              │   Update    │   │ (возврат на доработку│
+              └─────────────┘   │  или triage/blocked) │
+                                └──────────────────────┘
+```
+
+```mermaid
+flowchart TD
+    S8[S8 Execute Fix Slice] --> S9[S9 Verify Gate]
+    subgraph S9_Parallel["Параллельный двухконтурный гейт"]
+        direction LR
+        Arch["Архитектурный ревьюер<br/>(arch-rules-implementation-review)<br/>• Границы слоев<br/>• AP-правила<br/>• Бюджет строк AP-019<br/>• Детерминизм тестов"]
+        Prod["Продуктовый ревьюер<br/>(arch-improvement-product-review)<br/>• Сквозной User Journey<br/>• Ожидания vs Реальность<br/>• Слепые зоны UX/CLI<br/>• Необработанные состояния"]
+    end
+    S9 --> Arch
+    S9 --> Prod
+    Arch --> Gate{"Оба VERDICT: PASS?"}
+    Prod --> Gate
+    Gate -->|ДА| S10[S10 Ledger Update]
+    Gate -->|НЕТ| Replan["S8 Fix / S6 Replan<br/>(возврат на доработку)"]
+```
+
+Гейт **S9** считается пройденным только тогда, когда **ОБА** ревьюера выдают `VERDICT: PASS`. При любом `FAIL` переход в S10 блокируется.
 
 Жёсткие правила:
 
@@ -91,16 +163,18 @@
 Минимальная поверхность Superpowers:
 
 - `superpowers:using-superpowers`
+- `superpowers:brainstorming`
 - `superpowers:writing-plans`
 - `superpowers:executing-plans`
 - `superpowers:test-driven-development`
 - `superpowers:verification-before-completion`
 
-Минимальная поверхность arch-rules:
+Минимальная поверхность arch-rules & review:
 
 - `arch-rules-context`
 - `arch-rules-slice-planning`
 - `arch-rules-implementation-review`
+- `arch-improvement-product-review`
 
 ## Bootstrap Для Агента
 

@@ -10,6 +10,7 @@ Install every directory under `skills/`:
 - `arch-improvement-memory`
 - `arch-improvement-orientation`
 - `arch-improvement-review`
+- `arch-improvement-product-review`
 - `arch-improvement-fix`
 - `arch-improvement-ledger`
 
@@ -64,7 +65,7 @@ Preferred:
 2. Install `arch-rules-skills` from https://github.com/VanDalkvist/arch-rules-skills.
 3. Resolve a readable architecture-rules baseline: project-pinned first, otherwise https://github.com/ai-meatbags/arch-rules.
 4. Use Codex's `skill-installer` flow for this GitHub repository if available.
-5. Install all six `skills/arch-improvement-*` paths.
+5. Install all seven `skills/arch-improvement-*` paths.
 6. Tell the user to restart Codex after installation.
 
 Manual fallback:

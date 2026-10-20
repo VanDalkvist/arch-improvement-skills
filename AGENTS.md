@@ -7,7 +7,7 @@ This repository contains portable agent skills. Keep it generic and open-source 
 - Do not add machine-specific paths, private repository names, tokens, chat contents, or user-specific memory.
 - Keep skills under `skills/<skill-name>/SKILL.md`.
 - Keep `arch-improvement-loop` as a thin state-machine orchestrator. Do not move review, fix, memory, or ledger logic into it.
-- Install all six `arch-improvement-*` skills as a set. Installing only the loop skill is incomplete.
+- Install all seven `arch-improvement-*` skills as a set. Installing only the loop skill is incomplete.
 - Before publishing, check for local coupling:
 
 ```sh
